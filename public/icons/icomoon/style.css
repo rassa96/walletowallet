@@ -1,0 +1,357 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?53gism');
+  src:  url('fonts/icomoon.eot?53gism#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?53gism') format('truetype'),
+    url('fonts/icomoon.woff?53gism') format('woff'),
+    url('fonts/icomoon.svg?53gism#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-camera:before {
+  content: "\e96d";
+}
+.icon-bag-dollar:before {
+  content: "\e96c";
+}
+.icon-star-2:before {
+  content: "\e96b";
+}
+.icon-fingerprint-verification:before {
+  content: "\e96a";
+}
+.icon-add-circle:before {
+  content: "\e966";
+}
+.icon-document-text:before {
+  content: "\e967";
+}
+.icon-exchange:before {
+  content: "\e968";
+}
+.icon-import:before {
+  content: "\e969";
+}
+.icon-ig:before {
+  content: "\e964";
+}
+.icon-whatsapp:before {
+  content: "\e965";
+}
+.icon-pencil-minus:before {
+  content: "\e963";
+}
+.icon-exit-outline:before {
+  content: "\e957";
+}
+.icon-globe-outline:before {
+  content: "\e959";
+}
+.icon-headset:before {
+  content: "\e95a";
+}
+.icon-help-circle-outline:before {
+  content: "\e95b";
+}
+.icon-link-outline:before {
+  content: "\e95c";
+}
+.icon-lock-closed-outline:before {
+  content: "\e95d";
+}
+.icon-moon-outline:before {
+  content: "\e95e";
+}
+.icon-notifications-outline:before {
+  content: "\e95f";
+}
+.icon-profile:before {
+  content: "\e960";
+}
+.icon-shield-checkmark-outline:before {
+  content: "\e961";
+}
+.icon-star-outline:before {
+  content: "\e962";
+}
+.icon-finger-print-outline:before {
+  content: "\e958";
+}
+.icon-chart-2:before {
+  content: "\e954";
+}
+.icon-mail-outline:before {
+  content: "\e955";
+}
+.icon-coin:before {
+  content: "\e956";
+}
+.icon-buy:before {
+  content: "\e952";
+}
+.icon-travel:before {
+  content: "\e953";
+}
+.icon-graph:before {
+  content: "\e94f";
+}
+.icon-password:before {
+  content: "\e950";
+}
+.icon-setting:before {
+  content: "\e951";
+}
+.icon-television:before {
+  content: "\e94d";
+}
+.icon-internet:before {
+  content: "\e945";
+}
+.icon-water:before {
+  content: "\e94c";
+}
+.icon-electricity:before {
+  content: "\e94e";
+}
+.icon-printer:before {
+  content: "\e94a";
+}
+.icon-dup-arrow:before {
+  content: "\e949";
+}
+.icon-hide:before {
+  content: "\e948";
+}
+.icon-flash-off:before {
+  content: "\e947";
+}
+.icon-range:before {
+  content: "\e946";
+}
+.icon-chevron-down-2:before {
+  content: "\e94b";
+}
+.icon-edit:before {
+  content: "\e944";
+}
+.icon-check-2:before {
+  content: "\e943";
+}
+.icon-close-outline:before {
+  content: "\e942";
+}
+.icon-flip-camera:before {
+  content: "\e940";
+}
+.icon-flashlight-off:before {
+  content: "\e941";
+}
+.icon-face-id:before {
+  content: "\e93f";
+}
+.icon-arrow-circle-up:before {
+  content: "\e93e";
+}
+.icon-eye-outline:before {
+  content: "\e93d";
+}
+.icon-scan:before {
+  content: "\e93c";
+}
+.icon-pay-bill:before {
+  content: "\e900";
+}
+.icon-mobile-pay:before {
+  content: "\e901";
+}
+.icon-top-up:before {
+  content: "\e902";
+}
+.icon-transfer:before {
+  content: "\e903";
+}
+.icon-withdraw:before {
+  content: "\e904";
+}
+.icon-arrow-narrow-left:before {
+  content: "\e905";
+}
+.icon-arrow-narrow-right:before {
+  content: "\e906";
+}
+.icon-arrow-narrow-up:before {
+  content: "\e907";
+}
+.icon-bell:before {
+  content: "\e908";
+}
+.icon-Bookmark:before {
+  content: "\e909";
+}
+.icon-briefcase:before {
+  content: "\e90a";
+}
+.icon-building:before {
+  content: "\e90b";
+}
+.icon-chart:before {
+  content: "\e90c";
+}
+.icon-check:before {
+  content: "\e90d";
+}
+.icon-chevron-down:before {
+  content: "\e90e";
+}
+.icon-chevron-left:before {
+  content: "\e90f";
+}
+.icon-chevron-right:before {
+  content: "\e910";
+}
+.icon-chevron-up:before {
+  content: "\e911";
+}
+.icon-clipboard-list:before {
+  content: "\e912";
+}
+.icon-copy:before {
+  content: "\e913";
+}
+.icon-dollar-circle:before {
+  content: "\e914";
+}
+.icon-dots-vertical:before {
+  content: "\e915";
+}
+.icon-eye:before {
+  content: "\e916";
+}
+.icon-eye-off:before {
+  content: "\e917";
+}
+.icon-Filter:before {
+  content: "\e918";
+}
+.icon-flash:before {
+  content: "\e919";
+}
+.icon-global:before {
+  content: "\e91a";
+}
+.icon-heart:before {
+  content: "\e91b";
+}
+.icon-home-2:before {
+  content: "\e91c";
+}
+.icon-ike-outlined:before {
+  content: "\e91d";
+}
+.icon-lock:before {
+  content: "\e91e";
+}
+.icon-mail:before {
+  content: "\e91f";
+}
+.icon-map-pin:before {
+  content: "\e920";
+}
+.icon-menu-2:before {
+  content: "\e921";
+}
+.icon-message:before {
+  content: "\e922";
+}
+.icon-minus:before {
+  content: "\e923";
+}
+.icon-phone:before {
+  content: "\e924";
+}
+.icon-plus:before {
+  content: "\e925";
+}
+.icon-Search:before {
+  content: "\e926";
+}
+.icon-settings:before {
+  content: "\e927";
+}
+.icon-share:before {
+  content: "\e928";
+}
+.icon-share-two:before {
+  content: "\e929";
+}
+.icon-star:before {
+  content: "\e92a";
+}
+.icon-star-half:before {
+  content: "\e92b";
+}
+.icon-timer:before {
+  content: "\e92c";
+}
+.icon-user:before {
+  content: "\e92d";
+}
+.icon-users:before {
+  content: "\e92e";
+}
+.icon-alert-circle:before {
+  content: "\e92f";
+}
+.icon-arrow-narrow-down:before {
+  content: "\e930";
+}
+.icon-vaadin-user-check:before {
+  content: "\e931";
+}
+.icon-password-solid:before {
+  content: "\e932";
+}
+.icon-icon-arrow-narrow-left-2:before {
+  content: "\e933";
+}
+.icon-icon-request:before {
+  content: "\e934";
+}
+.icon-icon-send:before {
+  content: "\e935";
+}
+.icon-arrow-up-right:before {
+  content: "\e936";
+}
+.icon-profile-circle:before {
+  content: "\e937";
+}
+.icon-receipt-item:before {
+  content: "\e938";
+}
+.icon-bill:before {
+  content: "\e939";
+}
+.icon-home:before {
+  content: "\e93a";
+}
+.icon-scan-2:before {
+  content: "\e93b";
+}
