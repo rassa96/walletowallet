@@ -16,7 +16,26 @@
     <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/nouislider.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}" />
+    <style>
+        html,
+        body.page-scroll {
+            min-height: 100%;
+            overflow-y: auto !important;
+        }
 
+        body.page-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        body.page-scroll::-webkit-scrollbar-thumb {
+            background: rgba(17, 24, 39, 0.28);
+            border-radius: 8px;
+        }
+
+        body.page-scroll::-webkit-scrollbar-track {
+            background: rgba(17, 24, 39, 0.06);
+        }
+    </style>
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="{{ asset('images/logo/40.png') }}" />
     <link rel="apple-touch-icon-precomposed" href="{{ asset('images/logo/40.png') }}" />
@@ -24,7 +43,7 @@
     <title>Profile - EasyPay</title>
 </head>
 
-<body>
+<body class="page-scroll">
 
     <!-- preloade -->
     <div class="preload preload-container">
@@ -97,18 +116,9 @@
                 </div>
             @endif
 
-            <form action="{{ route('profile.avatar.update') }}" method="POST" enctype="multipart/form-data" class="mb-16">
-                @csrf
-                <div class="box-profile mb-16 p-3">
-                    <label class="form-label fw-6">Upload profile image</label>
-                    <input type="file" name="avatar" accept="image/*" required class="form-control mt-2">
-                    <button type="submit" class="btn btn-primary mt-3">Upload Image</button>
-                </div>
-            </form>
-
             <div class="list-profile-item mb-16">
 
-                <a href="#" class="profile-item">
+                <a href="{{ route('profile.details') }}" class="profile-item">
                     <span class="left-item">
                         <i class="icon-profile"></i>
                         <span class="title text-medium fw-5">Personal Details</span>
@@ -141,6 +151,15 @@
 
              <div class="list-profile-item mb-16">
 
+                @if(auth()->user()->is_verified)
+                <a href="/verification" class="btn btn-success">
+                    <span class="left-item">
+                        <i class="icon-finger-print-outline"></i>
+                        <span class="title text-medium fw-5">Verified Account</span>
+                    </span>
+                    <i class="icon-chevron-right"></i>
+                </a>
+                @else
                 <a href="/verification" class="btn btn-info">
                     <span class="left-item">
                         <i class="icon-finger-print-outline"></i>
@@ -148,19 +167,7 @@
                     </span>
                     <i class="icon-chevron-right"></i>
                 </a>
-
-                <div class="line"></div>
-
-                <div class="profile-item">
-                    <div class="left-item">
-                        <i class="icon-moon-outline"></i>
-                        <span class="title text-medium fw-5">Dark Mode</span>
-                    </div>
-
-                    <input type="checkbox" class="tf-switch-check style-2">
-
-                </div>
-
+                @endif
 
             </div>
 
