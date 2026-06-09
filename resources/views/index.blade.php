@@ -13,6 +13,26 @@
     <link rel="stylesheet" href="{{ asset('css/swiper-bundle.min.css') }}">
     <link rel="manifest" href="{{ asset('_manifest.json') }}" data-pwa-version="set_in_manifest_and_pwa_js">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}" />
+    <style>
+        html,
+        body.page-scroll {
+            min-height: 100%;
+            overflow-y: auto !important;
+        }
+
+        body.page-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        body.page-scroll::-webkit-scrollbar-thumb {
+            background: rgba(17, 24, 39, 0.28);
+            border-radius: 8px;
+        }
+
+        body.page-scroll::-webkit-scrollbar-track {
+            background: rgba(17, 24, 39, 0.06);
+        }
+    </style>
 
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="{{ asset('images/logo/40.png') }}" />
@@ -21,7 +41,7 @@
     <title>EasyPay</title>
 </head>
 
-<body class="bg-color-primary-100">
+<body class="bg-color-primary-100 page-scroll">
 
     <!-- preloade -->
     <div class="preload preload-container">
@@ -88,13 +108,30 @@
         <div class="tf-container">
             <div class="asset-card-row mb-24">
                 <div class="wg-total-asset-card">
-                    <div class="top-card">
-                        <div class="text text-small fw-5">Total asset value</div>
-                        <div class="price-asset-card h4 d-flex align-items-center g-8 box-auth-pass">
-                            <input type="text" value="$18,908.00" class="price password-field2" size="5">
-                            <a href="#" class="show-pass2 active"><i class="icon-eye-outline"></i></a>
+                    <div class="top-card" style="display:flex; justify-content:space-between; align-items:flex-start; gap:16px;">
+                        <div>
+                            <div class="text text-small fw-5">Total asset value</div>
+                            <div class="price-asset-card h4 d-flex align-items-center g-8 box-auth-pass">
+                                <input type="text" value="$18,908.00" class="price password-field2" size="5">
+                                <a href="#" class="show-pass2 active"><i class="icon-eye-outline"></i></a>
+                            </div>
+                            <p class="d-flex align-items-center g-4"><i class="icon-arrow-circle-up"></i> <span class="text-xsmall">4.78% (+0.20%) vs Last week</span></p>
                         </div>
-                        <p class="d-flex align-items-center g-4"><i class="icon-arrow-circle-up"></i> <span class="text-xsmall">4.78% (+0.20%) vs Last week</span></p>
+                        <div style="text-align:right; max-width:150px;">
+                            <p class="d-flex align-items-center justify-content-end g-4">
+                                <i class="icon-bag-dollar" style="font-size:18px;"></i>
+                                <span class="text-small fw-6">Wallet Address</span>
+                            </p>
+                            <p style="margin-top:4px; overflow-wrap:anywhere;">
+                                <span class="text-small fw-6">
+                                    @auth
+                                        {{ optional(auth()->user()->wallet)->wallet_address ?? 'No wallet' }}
+                                    @else
+                                        Sign in to view
+                                    @endauth
+                                </span>
+                            </p>
+                        </div>
                     </div>
                     <div class="list-image-logo">
                         <img loading="lazy" width="32" height="32" src="{{ asset('images/icon/amazon.jpg') }}" alt="Image" class="img-logo">
