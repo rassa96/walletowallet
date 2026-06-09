@@ -9,6 +9,9 @@ class VerificationRequest extends Model
     protected $fillable = [
         'user_id', 
         'passport_path', 
+        'id_card_path',
+        'id_card_type',
+        'verification_type',
         'status', 
         'admin_notes', 
         'reviewed_by', 
