@@ -118,75 +118,49 @@
                 <p><strong>Name:</strong> {{ $user->name }}</p>
                 <p><strong>Email:</strong> {{ $user->email }}</p>
                 <p><strong>Registered:</strong> {{ $user->created_at->format('F j, Y') }}</p>
-                <p><strong>Submitted:</strong> {{ $verificationRequest->created_at->format('F j, Y, g:i a') }}</p>
+                @if($verificationRequest)
+                    <p><strong>Submitted:</strong> {{ $verificationRequest->created_at->format('F j, Y, g:i a') }}</p>
+                @endif
             </div>
             
             <div class="document-view">
                 <h2>Passport Document</h2>
-                @if($user->passport_path)
+                
+                @if($passportPath)
                     @php
-                        $extension = pathinfo($user->passport_path, PATHINFO_EXTENSION);
+                        $extension = pathinfo($passportPath, PATHINFO_EXTENSION);
+                        $viewUrl = route('admin.verifications.passport.view', $user->id);
                     @endphp
                     
-                    @if(in_array($extension, ['jpg', 'jpeg', 'png']))
-                        <img src="{{ asset('storage/' . $user->passport_path) }}" alt="Passport">
-                    @elseif($extension == 'pdf')
-                        <iframe src="{{ asset('storage/' . $user->passport_path) }}" width="100%" height="500px"></iframe>
+                    @if(in_array(strtolower($extension), ['jpg', 'jpeg', 'png']))
+                        <img src="{{ $viewUrl }}" alt="Passport Document">
+                    @elseif(strtolower($extension) == 'pdf')
+                        <iframe src="{{ $viewUrl }}" width="100%" height="500px"></iframe>
                     @else
-                        <p>File type not previewable. <a href="{{ asset('storage/' . $user->passport_path) }}" target="_blank">Click here to view</a></p>
+                        <p>File type not previewable. <a href="{{ $viewUrl }}" target="_blank">Click here to view</a></p>
                     @endif
                     
-                    <p><a href="{{ route('admin.verifications.passport.view', $user->id) }}" target="_blank" style="color: #007bff;">Open in new tab</a></p>
+                    <p style="margin-top: 10px;"><a href="{{ $viewUrl }}" target="_blank" style="color: #007bff;">Open in new tab</a></p>
+                    
+                    @if(!$fileExists)
+                        <div class="alert alert-danger" style="margin-top: 10px;">
+                            <strong>Warning:</strong> File may not exist on disk at the expected path.
+                        </div>
+                    @endif
                 @else
-                    <p class="alert alert-danger">No passport file found for this user.</p>
+                    <div class="alert alert-danger">
+                        <strong>No passport file found for this user.</strong><br>
+                        The user may not have uploaded a passport yet.
+                    </div>
+                    
+                    @if($user->id_card_path)
+                        <div class="alert alert-info">
+                            This user has uploaded an ID card instead. <a href="{{ route('admin.verifications.idcard.show', $user->id) }}">Click here to review ID card</a>
+                        </div>
+                    @endif
                 @endif
             </div>
         </div>
-
-        <div class="document-view">
-    <h2>Passport Document</h2>
-    
-    <!-- Debug info - Remove after fixing -->
-    @if(isset($fileExists))
-        <div class="alert alert-info">
-            <strong>Debug Info:</strong><br>
-            File path in database: {{ $user->passport_path ?? 'NULL' }}<br>
-            File exists on server: {{ $fileExists ? 'Yes' : 'No' }}<br>
-            User ID: {{ $user->id }}
-        </div>
-    @endif
-    
-    @if($user->passport_path)
-        @php
-            $extension = pathinfo($user->passport_path, PATHINFO_EXTENSION);
-            $fullUrl = asset('storage/' . $user->passport_path);
-        @endphp
-        
-        <p><strong>File:</strong> {{ $user->passport_path }}</p>
-        <p><strong>Full URL:</strong> <a href="{{ $fullUrl }}" target="_blank">{{ $fullUrl }}</a></p>
-        
-        @if(in_array($extension, ['jpg', 'jpeg', 'png']))
-            <img src="{{ $fullUrl }}" alt="Passport" style="max-width: 100%; max-height: 500px; border: 1px solid #ddd; border-radius: 5px;">
-        @elseif($extension == 'pdf')
-            <iframe src="{{ $fullUrl }}" width="100%" height="500px"></iframe>
-        @else
-            <p>File type: {{ $extension }}. <a href="{{ $fullUrl }}" target="_blank">Click here to view/download</a></p>
-        @endif
-        
-        <p><a href="{{ route('admin.verifications.passport.view', $user->id) }}" target="_blank" style="color: #007bff;">Open in new tab</a></p>
-    @else
-        <div class="alert alert-danger">
-            <strong>No passport file found for this user.</strong><br>
-            The user may not have uploaded a passport yet.
-        </div>
-        
-        @if($user->id_card_path)
-            <div class="alert alert-info">
-                This user has uploaded an ID card instead. <a href="{{ route('admin.verifications.idcard.show', $user->id) }}">Click here to review ID card</a>
-            </div>
-        @endif
-    @endif
-</div>
         
         <div class="card">
             <h2>Make Decision</h2>
@@ -194,22 +168,21 @@
             <form action="{{ route('admin.verifications.passport.approve', $user->id) }}" method="POST" style="display: inline-block; margin-right: 10px;">
                 @csrf
                 <button type="submit" class="btn btn-approve" onclick="return confirm('Approve this passport?')">
-                    ✅ Approve Passport
+                    Approve Passport
                 </button>
             </form>
             
-            <form action="{{ route('admin.verifications.passport.reject', $user->id) }}" method="POST" style="display: inline-block;">
+            <form action="{{ route('admin.verifications.passport.reject', $user->id) }}" method="POST" style="margin-top: 20px;">
                 @csrf
-                <div class="form-group" style="margin-top: 20px;">
+                <div class="form-group">
                     <label for="reason">Rejection Reason (required for rejection)</label>
                     <textarea name="reason" id="reason" placeholder="Explain why this passport is being rejected..."></textarea>
                 </div>
                 <button type="submit" class="btn btn-reject" onclick="return confirm('Reject this passport?')">
-                    ❌ Reject Passport
+                    Reject Passport
                 </button>
             </form>
         </div>
-    
         
         <div class="alert alert-info">
             <strong>Note:</strong> After approving the passport, the user will be verified and can send/receive money.
