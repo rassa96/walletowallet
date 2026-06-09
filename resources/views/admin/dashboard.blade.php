@@ -130,8 +130,39 @@
             <a href="{{ route('admin.users') }}">👥 Manage Users</a>
             <a href="{{ route('admin.transactions') }}">📊 View Transactions</a>
             <a href="{{ route('admin.verifications') }}">📄 Verify Documents ({{ $totalPending }})</a>
+            <a href="{{ route('admin.chat.index') }}">💬 Customer Support Chats</a>
         </div>
         
+        <div style="margin-top: 30px;">
+            <h2>Verified Users</h2>
+            @if($verifiedUsersList->count() > 0)
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Wallet Balance</th>
+                        <th>Verified Since</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($verifiedUsersList as $index => $vUser)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $vUser->name }}</td>
+                        <td>{{ $vUser->email }}</td>
+                        <td>{{ $vUser->wallet ? number_format($vUser->wallet->balance, 2) : 'N/A' }}</td>
+                        <td>{{ $vUser->updated_at->format('Y-m-d') }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            @else
+            <p style="color: #666; padding: 20px; background: white; border-radius: 8px;">No verified users yet.</p>
+            @endif
+        </div>
+
         <div style="margin-top: 30px;">
             <h2>Recent Users</h2>
             <table>
