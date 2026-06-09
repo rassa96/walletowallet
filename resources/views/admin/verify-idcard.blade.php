@@ -107,20 +107,21 @@
             
             <div class="document-view">
                 <h2>ID Card Document</h2>
-                @if($user->id_card_path)
+                @if($idCardPath)
                     @php
-                        $extension = pathinfo($user->id_card_path, PATHINFO_EXTENSION);
+                        $extension = pathinfo($idCardPath, PATHINFO_EXTENSION);
+                        $viewUrl = route('admin.verifications.idcard.view', $user->id);
                     @endphp
                     
-                    @if(in_array($extension, ['jpg', 'jpeg', 'png']))
-                        <img src="{{ asset('storage/' . $user->id_card_path) }}" alt="ID Card">
-                    @elseif($extension == 'pdf')
-                        <iframe src="{{ asset('storage/' . $user->id_card_path) }}" width="100%" height="500px"></iframe>
+                    @if(in_array(strtolower($extension), ['jpg', 'jpeg', 'png']))
+                        <img src="{{ $viewUrl }}" alt="ID Card">
+                    @elseif(strtolower($extension) == 'pdf')
+                        <iframe src="{{ $viewUrl }}" width="100%" height="500px"></iframe>
                     @else
-                        <p>File type not previewable. <a href="{{ asset('storage/' . $user->id_card_path) }}" target="_blank">Click here to view</a></p>
+                        <p>File type not previewable. <a href="{{ $viewUrl }}" target="_blank">Click here to view</a></p>
                     @endif
                     
-                    <p><a href="{{ route('admin.verifications.idcard.view', $user->id) }}" target="_blank" style="color: #007bff;">Open in new tab</a></p>
+                    <p style="margin-top: 10px;"><a href="{{ $viewUrl }}" target="_blank" style="color: #007bff;">Open in new tab</a></p>
                 @else
                     <p class="alert alert-danger">No ID card file found for this user.</p>
                 @endif
