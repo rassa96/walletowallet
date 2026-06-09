@@ -6,5 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class NotificationLog extends Model
 {
-    //
+    protected $fillable = [
+        'user_id',
+        'type',
+        'title',
+        'message',
+        'amount',
+        'metadata',
+        'is_read',
+    ];
+
+    protected $casts = [
+        'amount' => 'decimal:2',
+        'metadata' => 'array',
+        'is_read' => 'boolean',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
