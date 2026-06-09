@@ -10,8 +10,13 @@
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
         th { background: #007bff; color: white; }
+        th.verified-header { background: #28a745; }
+        th.rejected-header { background: #dc3545; }
         .btn { display: inline-block; padding: 5px 10px; background: #007bff; color: white; text-decoration: none; border-radius: 3px; font-size: 12px; }
         .btn-review { background: #28a745; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 3px; font-size: 11px; font-weight: bold; }
+        .badge-verified { background: #d4edda; color: #155724; }
+        .badge-rejected { background: #f8d7da; color: #721c24; }
         .alert { padding: 15px; margin-bottom: 20px; border-radius: 5px; }
         .alert-success { background: #d4edda; color: #155724; }
         .alert-warning { background: #fff3cd; color: #856404; }
@@ -33,7 +38,7 @@
         
         <!-- Pending Passports -->
         <div class="card">
-            <h2>📄 Pending Passport Verifications ({{ $pendingPassports->count() }})</h2>
+            <h2>Pending Passport Verifications ({{ $pendingPassports->count() }})</h2>
             @if($pendingPassports->count() > 0)
                 <table>
                     <thead>
@@ -51,13 +56,13 @@
                     </tbody>
                 </table>
             @else
-                <p>✅ No pending passport verifications.</p>
+                <p>No pending passport verifications.</p>
             @endif
         </div>
         
         <!-- Pending ID Cards -->
         <div class="card">
-            <h2>🪪 Pending ID Card Verifications ({{ $pendingIdCards->count() }})</h2>
+            <h2>Pending ID Card Verifications ({{ $pendingIdCards->count() }})</h2>
             @if($pendingIdCards->count() > 0)
                 <table>
                     <thead>
@@ -76,24 +81,65 @@
                     </tbody>
                 </table>
             @else
-                <p>✅ No pending ID card verifications.</p>
+                <p>No pending ID card verifications.</p>
             @endif
         </div>
         
-        <!-- Recent Verifications -->
+        <!-- Verified Passports -->
         <div class="card">
-            <h2>Recent Verifications</h2>
-            @if($recentVerifications->count() > 0)
+            <h2 style="color: #28a745;">Verified Passports ({{ $approvedPassports->count() }})</h2>
+            @if($approvedPassports->count() > 0)
                 <table>
                     <thead>
-                        <tr><th>User</th><th>Type</th><th>Status</th><th>Reviewed By</th><th>Date</th></tr>
+                        <tr>
+                            <th class="verified-header">User</th>
+                            <th class="verified-header">Email</th>
+                            <th class="verified-header">Status</th>
+                            <th class="verified-header">Verified By</th>
+                            <th class="verified-header">Verified At</th>
+                            <th class="verified-header">Action</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        @foreach($recentVerifications as $request)
+                        @foreach($approvedPassports as $request)
                         <tr>
                             <td>{{ $request->user->name }}</td>
-                            <td>{{ ucfirst($request->verification_type) }}</td>
-                            <td><span style="color: {{ $request->status == 'approved' ? 'green' : 'red' }}">{{ ucfirst($request->status) }}</span></td>
+                            <td>{{ $request->user->email }}</td>
+                            <td><span class="badge badge-verified">Verified</span></td>
+                            <td>{{ $request->reviewer->name ?? 'N/A' }}</td>
+                            <td>{{ $request->reviewed_at ? $request->reviewed_at->format('Y-m-d H:i') : 'N/A' }}</td>
+                            <td><a href="{{ route('admin.verifications.passport.show', $request->user->id) }}" class="btn">View</a></td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p>No verified passports yet.</p>
+            @endif
+        </div>
+        
+        <!-- Verified ID Cards -->
+        <div class="card">
+            <h2 style="color: #28a745;">Verified ID Cards ({{ $approvedIdCards->count() }})</h2>
+            @if($approvedIdCards->count() > 0)
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="verified-header">User</th>
+                            <th class="verified-header">Email</th>
+                            <th class="verified-header">ID Type</th>
+                            <th class="verified-header">Status</th>
+                            <th class="verified-header">Verified By</th>
+                            <th class="verified-header">Verified At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($approvedIdCards as $request)
+                        <tr>
+                            <td>{{ $request->user->name }}</td>
+                            <td>{{ $request->user->email }}</td>
+                            <td>{{ ucfirst(str_replace('_', ' ', $request->id_card_type)) }}</td>
+                            <td><span class="badge badge-verified">Verified</span></td>
                             <td>{{ $request->reviewer->name ?? 'N/A' }}</td>
                             <td>{{ $request->reviewed_at ? $request->reviewed_at->format('Y-m-d H:i') : 'N/A' }}</td>
                         </tr>
@@ -101,7 +147,40 @@
                     </tbody>
                 </table>
             @else
-                <p>No recent verifications.</p>
+                <p>No verified ID cards yet.</p>
+            @endif
+        </div>
+        
+        <!-- Rejected Verifications -->
+        <div class="card">
+            <h2 style="color: #dc3545;">Rejected Verifications ({{ $rejectedVerifications->count() }})</h2>
+            @if($rejectedVerifications->count() > 0)
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="rejected-header">User</th>
+                            <th class="rejected-header">Type</th>
+                            <th class="rejected-header">Status</th>
+                            <th class="rejected-header">Reason</th>
+                            <th class="rejected-header">Reviewed By</th>
+                            <th class="rejected-header">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($rejectedVerifications as $request)
+                        <tr>
+                            <td>{{ $request->user->name }}</td>
+                            <td>{{ ucfirst($request->verification_type ?? 'Passport') }}</td>
+                            <td><span class="badge badge-rejected">Rejected</span></td>
+                            <td>{{ $request->admin_notes ?? 'N/A' }}</td>
+                            <td>{{ $request->reviewer->name ?? 'N/A' }}</td>
+                            <td>{{ $request->reviewed_at ? $request->reviewed_at->format('Y-m-d H:i') : 'N/A' }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p>No rejected verifications.</p>
             @endif
         </div>
     </div>
