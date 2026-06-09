@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'profile_image'])]
+#[Fillable(['name', 'email', 'password', 'profile_image', 'passport_path', 'is_verified', 'verified_at', 'rejection_reason', 'id_card_path', 'id_card_type', 'id_card_verified', 'id_card_rejection_reason', 'is_admin', 'is_blocked'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -62,5 +62,14 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class);
     }
 
+    public function notificationLogs()
+    {
+        return $this->hasMany(NotificationLog::class);
+    }
+
+    public function chatMessages()
+    {
+        return $this->hasMany(ChatMessage::class);
+    }
 
     }
