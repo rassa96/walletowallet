@@ -75,21 +75,15 @@ class UserVerificationController extends Controller
         ]);
         
         // Create or update verification request
-        VerificationRequest::updateOrCreate(
+        $verificationRequest = VerificationRequest::updateOrCreate(
             ['user_id' => $user->id, 'verification_type' => 'id_card'],
             [
                 'id_card_path' => $path,
                 'id_card_type' => $request->id_card_type,
+                'passport_path' => $user->passport_path ?? '',
                 'status' => 'pending',
             ]
         );
-
-        // Also make sure passport status is preserved
-    if ($user->passport_path && !$verificationRequest->passport_path) {
-        $verificationRequest->update([
-            'passport_path' => $user->passport_path,
-        ]);
-    }
         
         return redirect()->route('user.verification')
             ->with('success', 'ID Card uploaded successfully! Admin will review it shortly.');
