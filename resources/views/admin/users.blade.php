@@ -70,12 +70,38 @@
             background: #ffc107;
             color: #000;
         }
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .btn-delete:hover { background: #c82333; }
+        .btn-delete:disabled { background: #ccc; cursor: not-allowed; }
+        .alert {
+            padding: 12px 16px;
+            border-radius: 5px;
+            margin-bottom: 16px;
+        }
+        .alert-success { background: #d4edda; color: #155724; }
+        .alert-danger { background: #f8d7da; color: #721c24; }
     </style>
 </head>
 <body>
     <div class="container">
         <a href="/admin/dashboard" class="back-btn">← Back to Dashboard</a>
         <h1>User Management</h1>
+        
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
         
         <table>
             <thead>
@@ -88,6 +114,7 @@
                     <th>Passport</th>
                     <th>ID Card</th>
                     <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -99,12 +126,12 @@
                     <td>{{ $user->wallet->wallet_address ?? 'No wallet' }}</td>
                     <td>${{ number_format($user->wallet->balance ?? 0, 2) }}</td>
                     <td class="{{ $user->is_verified == 1 ? 'verified' : 'unverified' }}">
-    @if($user->is_verified == 1)
-        ✅ Yes
-    @else
-        ❌ No
-    @endif
-</td>
+                        @if($user->is_verified == 1)
+                            ✅ Yes
+                        @else
+                            ❌ No
+                        @endif
+                    </td>
                     <td>
                         @if($user->id_card_verified)
                             <span class="badge badge-success">Verified</span>
@@ -116,6 +143,18 @@
                     </td>
                     <td class="{{ $user->is_verified && $user->id_card_verified ? 'verified' : 'unverified' }}">
                         {{ $user->is_verified && $user->id_card_verified ? 'Fully Verified' : 'Not Verified' }}
+                    </td>
+                    <td>
+                        @if($user->id == auth()->id())
+                            <button class="btn-delete" disabled title="You cannot delete yourself">You</button>
+                        @elseif($user->is_admin == 1)
+                            <button class="btn-delete" disabled title="Cannot delete admin">Admin</button>
+                        @else
+                            <form action="{{ route('admin.users.delete', $user->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete user \'{{ $user->name }}\'? This will permanently delete their wallet, transactions, verifications, and chat messages.');">
+                                @csrf
+                                <button type="submit" class="btn-delete">Delete</button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
